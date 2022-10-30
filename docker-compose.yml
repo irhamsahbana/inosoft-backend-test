@@ -1,0 +1,47 @@
+version: '3.7'
+
+services:
+  inosoft_php:
+    build:
+      args:
+        user: irhamsahbana
+        uid: 1000
+      context: ./
+      dockerfile: ./dockerfile
+    image: inosoft/app:latest
+    container_name: inosoft-php
+    restart: unless-stopped
+    volumes:
+      - ./:/var/www
+      - ./configs/supervisor/conf.d/supervisor.conf:/etc/supervisor/supervisord.conf
+      - ../inosoft-volumes/logs/supervisor:/var/log/inosoft
+    networks:
+      - inosoft
+
+  inosoft_nginx:
+    image: nginx:stable-alpine
+    container_name: inosoft-nginx
+    restart: unless-stopped
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./:/var/www
+      - ./configs/nginx/conf.d:/etc/nginx/conf.d
+      - ../inosoft-volumes/logs/nginx:/var/log/nginx
+    networks:
+      - inosoft
+
+  inosoft_mongodb:
+    image: mongo:4.2
+    container_name: inosoft-mongodb
+    restart: unless-stopped
+    ports:
+      - 27017:27017
+    volumes:
+      - ../inosoft-volumes/database-mongo:/data/db
+    networks:
+      - inosoft
+
+networks:
+  inosoft: {}
