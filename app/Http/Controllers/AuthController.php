@@ -31,7 +31,11 @@ class AuthController extends Controller
      */
     public function me()
     {
-        return response()->json(auth()->user());
+       $response = new Response();
+
+        return $response->json([
+            'user' => auth()->user()
+        ], 'success to get profile');
     }
 
     /**
@@ -43,7 +47,8 @@ class AuthController extends Controller
     {
         auth()->logout();
 
-        return response()->json(['message' => 'Successfully logged out']);
+        $response = new Response();
+        return $response->json([], 'success to logout');
     }
 
     /**
@@ -71,6 +76,6 @@ class AuthController extends Controller
             'access_token' => $token,
             'token_type' => 'bearer',
             'expires_in' => auth()->factory()->getTTL() * 60
-        ], 'success to authenticate');
+        ], 'success to get token');
     }
 }

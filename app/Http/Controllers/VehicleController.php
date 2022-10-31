@@ -76,6 +76,35 @@ class VehicleController extends Controller
         return $response->json($data, 'success to get data');
     }
 
+    public function store(Request $request)
+    {
+        $response = new Response;
+
+        $fields = $request->all();
+        $rules = [
+            'year' => 'required|integer',
+            'color' => 'required|string',
+            'price' => 'required|numeric',
+            'vehicle_type' => 'required|string|in:car,motorcycle',
+            'engine' => 'required|string',
+            'suspension_type' => 'nullable|required_if:vehicle_type,motorcycle',
+            'transmission_type' => 'nullable|required_if:vehicle_type,motorcycle',
+            'capacity' => 'nullable|integer|required_if:vehicle_type,car',
+            'type' => 'nullable|string|required_if:vehicle_type,car',
+        ];
+
+        $validator = Validator::make($fields, $rules);
+        if ($validator->fails()) {
+            return $response->json(null, $validator->errors(), 422);
+        }
+
+        $repository = new VehicleRepository;
+        $service = new Vehicle($repository);
+        $vehicle = $service->create($fields);
+
+        return $response->json([], 'success to create data');
+    }
+
     public function showStock($uuid)
     {
         $response = new Response;
@@ -110,7 +139,7 @@ class VehicleController extends Controller
 
         $repository = new VehicleRepository();
         $service = new Vehicle($repository);
-        $data = $service->getSalesReports();
+        $data = $service->getVehicleSalesReports();
 
         if ($data == null)
             return $response->json(null, 'data not found', 404);

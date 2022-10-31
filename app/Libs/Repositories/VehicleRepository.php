@@ -78,7 +78,43 @@ class VehicleRepository implements VehicleRepositoryContract
 
     public function getVehicleSalesReports()
     {
+        // get the sales report of all the vehicles
+        $salesReport = $this->invoiceModel
+                            ->where('type', 'sales')
+                            ->get();
 
+
+        if ($salesReport) {
+            $salesReport = $salesReport->map(function ($item) {
+                $item['total'] = $item->qty * $item->vehicle['price'];
+                unset($item['_id']);
+                return $item;
+            })->toArray();
+        } else {
+            $salesReport = [];
+        }
+
+        $vehicles = $this->vehicleModel->get();
+
+        if ($vehicles) {
+            $vehicles = $vehicles->map(function ($item) {
+                return $item->toArray();
+            })->toArray();
+        } else {
+            $vehicles = [];
+        }
+
+        $vehicles = array_map(function ($vehicle) use ($salesReport) {
+            $v = [];
+            $v['uuid'] = $vehicle['uuid'];
+            $v['name'] = $vehicle['name'];
+            $v['sales_report'] = array_filter($salesReport, function ($item) use ($vehicle) {
+                return $item['vehicle']['uuid'] === $vehicle['uuid'];
+            });
+            return $v;
+        }, $vehicles);
+
+        return $vehicles;
     }
 
     public function saleVehicle(string $uuid, int $quantity)

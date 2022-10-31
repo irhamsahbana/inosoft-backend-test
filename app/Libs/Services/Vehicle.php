@@ -32,7 +32,7 @@ class Vehicle implements VehicleServiceContract
 
     public function getVehicleSalesReports()
     {
-
+        return $this->mainRepo->getVehicleSalesReports();
     }
 
     public function saleVehicle(string $uuid, int $quantity)

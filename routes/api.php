@@ -28,6 +28,8 @@ Route::middleware('auth:api')->group(function () {
     Route::get('auth/logout', [AuthController::class, 'logout']);
 
     Route::get('vehicles', [VehicleController::class, 'index']);
+    Route::post('vehicles', [VehicleController::class, 'store']);
+    Route::get('vehicles/sales-reports', [VehicleController::class, 'showSalesReports']);
     Route::get('vehicles/{uuid}/stock', [VehicleController::class, 'showStock']);
     Route::get('vehicles/{uuid}/sales-report', [VehicleController::class, 'showSalesReport']);
     Route::post('vehicles/{uuid}/sale', [VehicleController::class, 'saleVehicle']);
