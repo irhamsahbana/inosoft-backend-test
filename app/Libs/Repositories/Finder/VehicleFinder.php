@@ -12,8 +12,8 @@ class VehicleFinder extends AbstractFinder
     private string $vehicleType = '';
     private string $engine = '';
 
-    private string $suspensionType = '';
-    private string $transmissionType = '';
+    private ?string $suspensionType;
+    private ?string $transmissionType;
 
     private int $capacity = 0;
     private string $type = '';

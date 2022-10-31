@@ -7,7 +7,8 @@ use Illuminate\Support\Str;
 
 use App\Models\{
     Vehicle,
-    Stock
+    Stock,
+    Invoice
 };
 
 class DummyVehicleSeeder extends Seeder
@@ -111,17 +112,33 @@ class DummyVehicleSeeder extends Seeder
             $stock = new Stock();
             $stock->uuid = Str::uuid()->toString();
             $stock->vehicle_uuid = $vehicle['uuid'];
+            $stock->invoice_uuid = null;
             $stock->stock =  rand(5, 15);
+            $stock->type = 'purchase';
             $stock->notes = 'system generated (incoming stock)';
             $stock->save();
         });
 
         $vehicles->each(function ($vehicle) {
+            $qty = rand(-5, -1);
+            unset($vehicle['created_at']);
+            unset($vehicle['updated_at']);
+
+            $inv = new Invoice();
+            $inv->uuid = Str::uuid()->toString();
+            $inv->vehicle = $vehicle;
+            $inv->qty = abs($qty);
+            $inv->type = 'sales';
+            $inv->notes = 'system generated (sales)';
+            $inv->save();
+
             $stock = new Stock();
             $stock->uuid = Str::uuid()->toString();
             $stock->vehicle_uuid = $vehicle['uuid'];
-            $stock->stock =  rand(-5, -1);
-            $stock->notes = 'system generated (outgoing stock)';
+            $stock->invoice_uuid = null;
+            $stock->stock = $qty;
+            $stock->type = 'sales';
+            $stock->notes = 'system generated (outgoing stock to somewhere)';
             $stock->save();
         });
     }

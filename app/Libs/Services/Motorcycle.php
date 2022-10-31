@@ -5,6 +5,6 @@ namespace App\Libs\Services;
 
 class Motorcycle extends Vehicle
 {
-    public string $suspensionType = 'mono';
-    public string $transmisionType = 'manual';
+    public ?string $suspensionType;
+    public ?string $transmisionType;
 }

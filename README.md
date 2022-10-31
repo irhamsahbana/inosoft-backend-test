@@ -36,4 +36,4 @@ Migration dan generate dummy data:
 - jalankan command berikut di local anda atau di container inosoft-php: `php artisan db:seed`
 
 ## Dokumentasi API
-Untuk dokumentasi API nya dapat dilihat pada [xxxxxx](https://google.com)
+Untuk dokumentasi API nya dapat dilihat pada [Dokumentasi Postman](https://documenter.getpostman.com/view/11575131/2s8YRiJtM9)

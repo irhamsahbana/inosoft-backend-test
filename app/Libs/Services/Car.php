@@ -5,6 +5,6 @@ namespace App\Libs\Services;
 
 class Car extends Vehicle
 {
-    public int $capacity = 0;
-    public string $type = 'family';
+    public ?int $capacity;
+    public ?string $type;
 }

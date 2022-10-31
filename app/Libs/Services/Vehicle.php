@@ -3,12 +3,40 @@ declare(strict_types=1);
 
 namespace App\Libs\Services;
 
-use App\Libs\Services\Contract\VehicleContract;
+use App\Libs\Repositories\Contracts\VehicleRepositoryContract;
+use App\Libs\Services\Contracts\VehicleServiceContract;
 
-class Vehicle implements VehicleContract
+class Vehicle implements VehicleServiceContract
 {
-    public string $engine = 'gasoline';
-    public int $year = 0;
-    public string $color = 'white';
-    public int $price = 0;
+    private VehicleRepositoryContract $mainRepo;
+
+    public ?string $engine;
+    public ?int $year;
+    public ?string $color;
+    public ?int $price;
+
+    public function __construct(VehicleRepositoryContract $repo)
+    {
+        $this->mainRepo = $repo;
+    }
+
+    public function getVehicleStock(string $uuid)
+    {
+        return $this->mainRepo->getVehicleStock($uuid);
+    }
+
+    public function getVehicleSalesReport(string $uuid)
+    {
+        return $this->mainRepo->getVehicleSalesReport($uuid);
+    }
+
+    public function getVehicleSalesReports()
+    {
+
+    }
+
+    public function saleVehicle(string $uuid, int $quantity)
+    {
+        return $this->mainRepo->saleVehicle($uuid, $quantity);
+    }
 }
