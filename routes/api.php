@@ -4,7 +4,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\{
-    AuthController
+    AuthController,
+    VehicleController
 };
 
 /*
@@ -25,4 +26,6 @@ Route::middleware('auth:api')->group(function () {
     Route::post('auth/logout', [AuthController::class, 'logout']);
     Route::post('auth/refresh', [AuthController::class, 'refresh']);
     Route::get('auth/logout', [AuthController::class, 'logout']);
+
+    Route::get('vehicles', [VehicleController::class, 'index']);
 });

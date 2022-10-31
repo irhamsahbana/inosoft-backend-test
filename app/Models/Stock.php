@@ -5,12 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Jenssegers\Mongodb\Eloquent\Model;
 
-class Vehicle extends Model
+class Stock extends Model
 {
     use HasFactory;
 
-    protected $hidden = ['_id'];
-
     protected $connection = 'mongodb';
-    protected $collection = 'vehicles';
+    protected $collection = 'stocks';
 }

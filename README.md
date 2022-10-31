@@ -2,9 +2,9 @@
 
 ## System Requirements
 
- - PHP 7.4
+ - PHP >= 8.0
  - Composer
- - mongodb PHP driver
+ - mongoDB driver for PHP
 
 Jika ingin menggunakan docker untuk menjalankan project ini maka arsitektur prosesor harus menggunakan amd64 atau arm64.
 
